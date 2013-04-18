@@ -1,0 +1,27 @@
+delimiter |
+DROP TRIGGER IF EXISTS cpm_insert|
+ CREATE TRIGGER cpm_insert AFTER INSERT ON prod_ip_alerts.collection_patent_map2
+  FOR EACH ROW BEGIN
+   UPDATE prod_ip_data.ip_patents p SET p.modified = NOW() WHERE p.patent_id = NEW.patent_id;     
+  END;
+|
+delimiter ;	
+	
+delimiter |
+DROP TRIGGER IF EXISTS cpm_update|
+ CREATE TRIGGER cpm_update AFTER UPDATE ON prod_ip_alerts.collection_patent_map2
+  FOR EACH ROW BEGIN
+	 UPDATE prod_ip_data.ip_patents p SET p.modified = NOW() WHERE p.patent_id = NEW.patent_id;     
+  END;
+|
+delimiter ;	
+
+
+delimiter |
+DROP TRIGGER IF EXISTS cpm_delete|
+ CREATE TRIGGER cpm_delete AFTER DELETE ON prod_ip_alerts.collection_patent_map2
+  FOR EACH ROW BEGIN
+	 UPDATE prod_ip_data.ip_patents p SET p.modified = NOW() WHERE p.patent_id = OLD.patent_id;     
+  END;
+|
+delimiter ;	
